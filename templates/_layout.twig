@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+	<title>{% block title %}{% endblock %} - cheeseRox</title>
+
+	<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+	<header>
+		<div class="top">
+			<a href="/"><img class="picon" src="/assets/icon.png"/></a>
+			<ul class="menu left">
+				<li><a href="/browse.php" class="btn">Browse</a></li>
+				<li><a href="/search.php" class="btn"><img src="/assets/icons/search.svg" class="search"></a></li>
+			</ul>
+			<ul class="menu right">
+				{% if log %}
+					<li>
+						{{ userlink(userdata) }}
+						{% if notification_count > 0 %}
+							<span class="notifs">[{{ notification_count }}]</span>
+						{% endif %}
+					</li>
+					<li><a href="/upload.php" class="btn">Upload</a></li>
+				{% else %}
+					<li><a href="/login.php">Login</a></li>
+				{% endif %}
+			</ul>
+		</div>
+	</header>
+
+	<div class="container">
+		{% block content %}{% endblock %}
+	</div>
+
+	<footer>
+		Powered by cheeserox-web<br>
+		{{ profiler_stats() }}
+	</footer>
+</body>
+</html>

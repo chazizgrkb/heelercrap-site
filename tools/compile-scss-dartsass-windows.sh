@@ -1,0 +1,1 @@
+sass.bat --style=compressed --no-source-map --watch assets/scss/:assets/css/

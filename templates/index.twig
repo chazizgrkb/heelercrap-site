@@ -1,0 +1,19 @@
+{% extends "_layout.twig" %}
+
+{% block title %}Home{% endblock %}
+
+	{% block content %}
+<div class="center">
+	<div class="card">
+		<img src="/assets/logo.png" style="width:450px;">
+		{% if log %}
+			<p>Hello, {{ userdata.name }}</p>
+		{% endif %}
+		<form id="form" action="/search.php"> 
+		  <input type="search" id="query" name="q" placeholder="Search...">
+		  <button>Search</button>
+		</form>
+	</div>
+</div>
+<br>
+	{% endblock %}
