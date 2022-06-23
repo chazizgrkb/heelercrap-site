@@ -103,6 +103,14 @@ while (true)
 							$response .= 'MD5'.MSNP_EOL;
 							break;
 
+						case 'CHG':
+							$response .= implode(' ', array_slice($first_line, 2)).MSNP_EOL;
+							break;
+						
+						case 'PNG':
+							$response = "QNG";
+							break;
+
 						case 'USR':
 							switch( $first_line[3] )
 							{
@@ -126,6 +134,7 @@ while (true)
 						$response .= 'LSG 2 Friends 0'.MSNP_EOL;
 						$response .= 'LSG 3 Family 0'.MSNP_EOL;
 						$response .= 'LST carol@passport.com Carol 3 0'.MSNP_EOL;
+						$response .= 'LST gordon@freeman.com GordonFreeman 3 0'.MSNP_EOL;
 						$response .= 'BPR PHM 9876'.MSNP_EOL;
 						$response .= '-54321\r\n'.MSNP_EOL;
 						$response .= 'BPR PHW 45%206789'.MSNP_EOL;
