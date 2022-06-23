@@ -105,6 +105,7 @@ while (true)
 
 						case 'CHG':
 							$response .= implode(' ', array_slice($first_line, 2)).MSNP_EOL;
+							$response .= 'NLN ' . $first_line[2] . ' ' . $client_email . ' ' . $display_name . ' 12'.MSNP_EOL;
 							break;
 						
 						case 'PNG':
@@ -116,11 +117,12 @@ while (true)
 							{
 								case 'I':
 									$client_email = $first_line[4];
+									$display_name = strstr($client_email, '@', true); // placeholder: change this to actual DP when implemented. 
 
 									$response .= $first_line[2].' S ct='.time().',rver=5.5.4177.0,wp=FS_40SEC_0_COMPACT,lc=1033,id=507,ru=http:%2F%2Fmessenger.msn.com,tw=0,kpp=1,kv=4,ver=2.1.6000.1,rn=1lgjBfIL,tpf=b0735e3a873dfb5e75054465196398e0'.MSNP_EOL;
 									break;
 								case 'S':
-									$response .= 'OK '.$client_email.' example%20display%20name 1 0'.MSNP_EOL;
+									$response .= 'OK '.$client_email.' '. $display_name . ' 1 0'.MSNP_EOL;
 									break;
 							}
 						break;
@@ -134,7 +136,7 @@ while (true)
 						$response .= 'LSG 2 Friends 0'.MSNP_EOL;
 						$response .= 'LSG 3 Family 0'.MSNP_EOL;
 						$response .= 'LST carol@passport.com Carol 3 0'.MSNP_EOL;
-						$response .= 'LST gordon@freeman.com GordonFreeman 3 0'.MSNP_EOL;
+						$response .= 'LST ' . $client_email . ' ' . $display_name . ' 3 0'.MSNP_EOL;
 						$response .= 'BPR PHM 9876'.MSNP_EOL;
 						$response .= '-54321\r\n'.MSNP_EOL;
 						$response .= 'BPR PHW 45%206789'.MSNP_EOL;
@@ -143,8 +145,7 @@ while (true)
 
 						case 'OUT':
 						$goodbye = 1;
-							socket_close($clients[$k]);
-							unset($clients[$k]);
+							$response = 'FLN '.$client_email.MSNP_EOL;
 							printNote('Goodbye!');
 						break;
 
@@ -152,8 +153,11 @@ while (true)
 							printNote($first_line[0] . ' is not implemented!');
 						break;
 					}
-					if ($goodbye != 1) {
 					socket_write($clients[$k], $response);
+					if ($goodbye == 1) {
+						socket_close($clients[$k]);
+						unset($clients[$k]);
+						printNote('Client has been disconnected.');
 					}
 				}
 				printNote("Client $k: <<< $response");
