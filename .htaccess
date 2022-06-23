@@ -1,0 +1,5 @@
+AddType application/x-httpd-php .asp .py .pl .srf
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]

@@ -1,0 +1,6 @@
+<?php
+header("HTTP/1.1 302 Found");
+header("PPServer: H: LAWPPLOG5C006");
+header('P3P: CP="DSP CUR OTPi IND OTRi ONL FIN"');
+header("Authentication-Info: Passport1.4 da-status=redir");
+header("Location: https://login.passport.com/login2_alt.srf?lc=1033\r\n\r\n");

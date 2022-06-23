@@ -1,5 +1,7 @@
 <?php
 
+use Codedungeon\PHPCliColors\Color;
+
 /**
  * Returns true if it is executed from the command-line. (For command-line tools)
  */
@@ -40,4 +42,10 @@ function clearMentions($type, $id) {
 	if ($log) {
 		query("DELETE FROM notifications WHERE type = ? AND level = ? AND recipient = ?", [cmtTypeToNum($type) + 10, $id, $userdata['id']]);
 	}
+}
+
+function printNote($text)
+{
+	echo Color::GRAY, $text, Color::RESET, PHP_EOL;
+	return true;
 }
