@@ -57,6 +57,7 @@ while (true)
 	{
 		foreach ($clients AS $k => $v)
 		{
+			$goodbye = 0;
 			// Check for new messages
 			$string = '';
 			if ($char = socket_read($v, 1024000))
@@ -98,6 +99,10 @@ while (true)
 							$response .= "6.0.0602 6.0.0602 1.0.0000 http://download.microsoft.com/download/8/a/4/8a42bcae-f533-4468-b871-d2bc8dd32e9e/SETUP9x.EXE http://messenger.msn.com".MSNP_EOL;
 						break;
 						
+						case 'INF':
+							$response .= 'MD5'.MSNP_EOL;
+							break;
+
 						case 'USR':
 							switch( $first_line[3] )
 							{
@@ -128,15 +133,19 @@ while (true)
 						break;
 
 						case 'OUT':
+						$goodbye = 1;
 							socket_close($clients[$k]);
 							unset($clients[$k]);
+							printNote('Goodbye!');
 						break;
 
 						default:
 							printNote($first_line[0] . ' is not implemented!');
 						break;
 					}
+					if ($goodbye != 1) {
 					socket_write($clients[$k], $response);
+					}
 				}
 				printNote("Client $k: <<< $response");
 			}
